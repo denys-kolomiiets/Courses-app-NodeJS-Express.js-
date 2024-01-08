@@ -33,9 +33,8 @@ router.get("/:id/edit", async (req, res) => {
 });
 
 router.post("/edit", async (req, res) => {
-  const { id } = req.body;
-  delete req.body.id;
-  await Course.findOneAndUpdate(id, req.body);
+  const { id, ...updatedFields } = req.body;
+  await Course.findOneAndUpdate({ _id: id }, updatedFields);
   res.redirect("/courses");
 });
 module.exports = router;
