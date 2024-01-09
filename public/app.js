@@ -9,20 +9,20 @@ document.querySelectorAll(".price").forEach((node) => {
   node.textContent = toCurrency(node.textContent);
 });
 
-const $card = document.querySelector("#card");
-if ($card) {
-  $card.addEventListener("click", (e) => {
+const $cart = document.querySelector("#cart");
+if ($cart) {
+  $cart.addEventListener("click", (e) => {
     if (e.target.classList.contains("js-remove")) {
       const id = e.target.dataset.id;
 
-      fetch("/card/remove/" + id, {
+      fetch("/cart/remove/" + id, {
         method: "DELETE",
       })
         .then((res) => res.json())
-        .then((card) => {
-          if (card.courses.length) {
+        .then((cart) => {
+          if (cart.courses.length) {
             //need to update table
-            const html = card.courses
+            const html = cart.courses
               .map((c) => {
                 return `
                 <tr>
@@ -38,10 +38,10 @@ if ($card) {
               `;
               })
               .join("");
-            $card.querySelector("tbody").innerHTML = html;
-            $card.querySelector(".price").textContent = toCurrency(card.price);
+            $cart.querySelector("tbody").innerHTML = html;
+            $cart.querySelector(".price").textContent = toCurrency(cart.price);
           } else {
-            $card.innerHTML = "<p>Your card is empty</p>";
+            $cart.innerHTML = "<p>Your cart is empty</p>";
           }
         });
     }
